@@ -32,26 +32,6 @@ module mv_mul_4x4_fp32 #(
     output logic [31:0]    ox, oy, oz, ow
 );
 
-    // control state
-    typedef enum logic [1:0] { IDLE, MUL, ADD1, ADD2 } MATRIX_MUL_STATE_t;
-    MATRIX_MUL_STATE_t state_q, state_n;
-
-    always_ff @(posedge clk) begin
-        if(rst) begin
-            state_q <= IDLE;
-        end else begin
-            state_q <= state_n;
-        end
-    end
-
-    always_comb begin
-        case(state_q)
-            IDLE: state_n = (in_valid) ? ADD1 : IDLE;
-            ADD1: state_n = ADD2;
-            ADD2: state_n = (in_valid) ? MUL : ADD2;
-        endcase
-    end
-
     // -------------------------
     // Save 4*4 matrix if m_valid
     // -------------------------
