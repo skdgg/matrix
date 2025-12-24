@@ -16,6 +16,21 @@ initial begin
 `else
   $display("[TB] RTL mode");
 `endif
+`ifdef FSDB
+  `ifdef SYN
+    $fsdbDumpfile("matrix_syn.fsdb");
+  `else
+    $fsdbDumpfile("matrix_rtl.fsdb");
+  `endif
+  $fsdbDumpvars(0, dut);
+`elsif FSDB_ALL
+  `ifdef SYN
+    $fsdbDumpfile("matrix_syn.fsdb");
+  `else
+    $fsdbDumpfile("matrix_rtl.fsdb");
+  `endif
+  $fsdbDumpvars("+struct", "+mda", dut);
+`endif
 end
   // -------------------------
   // Config
@@ -40,15 +55,16 @@ end
   // -------------------------
   // DUT I/O
   // -------------------------
-  logic        in_valid;
+  logic           in_valid;
   logic [IDW-1:0] in_vertex_id;
-  logic [31:0] vx, vy, vz, vw;
+  logic [31:0]    vx, vy, vz, vw;
 
-  logic        out_valid;
+  logic           out_valid, out_ready;
   logic [IDW-1:0] out_vertex_id;
-  logic [31:0] ox, oy, oz, ow;
+  logic [31:0]    ox, oy, oz, ow;
 
   // matrix regs driven by TB
+  logic        m_valid;
   logic [31:0] m00,m01,m02,m03,
                m10,m11,m12,m13,
                m20,m21,m22,m23,
@@ -58,15 +74,17 @@ end
     .clk(clk),
     .rst(rst),
 
-    .m00(m00), .m01(m01), .m02(m02), .m03(m03),
-    .m10(m10), .m11(m11), .m12(m12), .m13(m13),
-    .m20(m20), .m21(m21), .m22(m22), .m23(m23),
-    .m30(m30), .m31(m31), .m32(m32), .m33(m33),
+    .m_valid(m_valid),
+    .m00_i(m00), .m01_i(m01), .m02_i(m02), .m03_i(m03),
+    .m10_i(m10), .m11_i(m11), .m12_i(m12), .m13_i(m13),
+    .m20_i(m20), .m21_i(m21), .m22_i(m22), .m23_i(m23),
+    .m30_i(m30), .m31_i(m31), .m32_i(m32), .m33_i(m33),
 
     .in_valid(in_valid),
     .in_vertex_id(in_vertex_id),
     .vx(vx), .vy(vy), .vz(vz), .vw(vw),
 
+    .out_ready(out_ready),
     .out_valid(out_valid),
     .out_vertex_id(out_vertex_id),
     .ox(ox), .oy(oy), .oz(oz), .ow(ow)
@@ -97,6 +115,8 @@ end
       base = case_idx*IN_WORDS;
 
       in_vertex_id = in_mem[base+0][IDW-1:0];
+
+      m_valid = 1'b1;
 
       // matrix row-major m00..m33
       m00 = in_mem[base+1];  m01 = in_mem[base+2];  m02 = in_mem[base+3];  m03 = in_mem[base+4];
@@ -141,10 +161,12 @@ end
     in_valid = 1'b0;
     in_vertex_id = '0;
     vx='0; vy='0; vz='0; vw='0;
+    m_valid = '0;
     m00='0; m01='0; m02='0; m03='0;
     m10='0; m11='0; m12='0; m13='0;
     m20='0; m21='0; m22='0; m23='0;
     m30='0; m31='0; m32='0; m33='0;
+    out_ready = 1'd0;
 
     // load hex
     $display("[TB] readmemh %s", IN_HEX);
@@ -166,7 +188,8 @@ end
       in_valid = 1'b1;
       @(posedge clk);
     end
-    in_valid = 1'b0;
+    in_valid  = 1'b0;
+    out_ready = 1'b1;
 
     // wait drain: allow pipeline to flush
     repeat (LATENCY + 10) @(posedge clk);
