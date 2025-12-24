@@ -124,49 +124,49 @@ module fp32_addsub (
 
     // Step 5. Normalize
     always_comb begin
-        if (alu_mant_res == 32'd0) begin
+        if (alu_mant_res_2nd_stage == 32'd0) begin
             alu_mant_norm = 32'd0;
             alu_exp_norm  = 9'd0;
         end else begin
-            priority if (alu_mant_res[30]) leading_zeros = 5'd0;
-            else if (alu_mant_res[29]) leading_zeros = 5'd1;
-            else if (alu_mant_res[28]) leading_zeros = 5'd2;
-            else if (alu_mant_res[27]) leading_zeros = 5'd3;
-            else if (alu_mant_res[26]) leading_zeros = 5'd4;
-            else if (alu_mant_res[25]) leading_zeros = 5'd5;
-            else if (alu_mant_res[24]) leading_zeros = 5'd6;
-            else if (alu_mant_res[23]) leading_zeros = 5'd7;
-            else if (alu_mant_res[22]) leading_zeros = 5'd8;
-            else if (alu_mant_res[21]) leading_zeros = 5'd9;
-            else if (alu_mant_res[20]) leading_zeros = 5'd10;
-            else if (alu_mant_res[19]) leading_zeros = 5'd11;
-            else if (alu_mant_res[18]) leading_zeros = 5'd12;
-            else if (alu_mant_res[17]) leading_zeros = 5'd13;
-            else if (alu_mant_res[16]) leading_zeros = 5'd14;
-            else if (alu_mant_res[15]) leading_zeros = 5'd15;
-            else if (alu_mant_res[14]) leading_zeros = 5'd16;
-            else if (alu_mant_res[13]) leading_zeros = 5'd17;
-            else if (alu_mant_res[12]) leading_zeros = 5'd18;
-            else if (alu_mant_res[11]) leading_zeros = 5'd19;
-            else if (alu_mant_res[10]) leading_zeros = 5'd20;
-            else if (alu_mant_res[9])  leading_zeros = 5'd21;
-            else if (alu_mant_res[8])  leading_zeros = 5'd22;
-            else if (alu_mant_res[7])  leading_zeros = 5'd23;
-            else if (alu_mant_res[6])  leading_zeros = 5'd24;
-            else if (alu_mant_res[5])  leading_zeros = 5'd25;
-            else if (alu_mant_res[4])  leading_zeros = 5'd26;
-            else if (alu_mant_res[3])  leading_zeros = 5'd27;
-            else if (alu_mant_res[2])  leading_zeros = 5'd28;
-            else if (alu_mant_res[1])  leading_zeros = 5'd29;
-            else if (alu_mant_res[0])  leading_zeros = 5'd30;
+            priority if (alu_mant_res_2nd_stage[30]) leading_zeros = 5'd0;
+            else if (alu_mant_res_2nd_stage[29]) leading_zeros = 5'd1;
+            else if (alu_mant_res_2nd_stage[28]) leading_zeros = 5'd2;
+            else if (alu_mant_res_2nd_stage[27]) leading_zeros = 5'd3;
+            else if (alu_mant_res_2nd_stage[26]) leading_zeros = 5'd4;
+            else if (alu_mant_res_2nd_stage[25]) leading_zeros = 5'd5;
+            else if (alu_mant_res_2nd_stage[24]) leading_zeros = 5'd6;
+            else if (alu_mant_res_2nd_stage[23]) leading_zeros = 5'd7;
+            else if (alu_mant_res_2nd_stage[22]) leading_zeros = 5'd8;
+            else if (alu_mant_res_2nd_stage[21]) leading_zeros = 5'd9;
+            else if (alu_mant_res_2nd_stage[20]) leading_zeros = 5'd10;
+            else if (alu_mant_res_2nd_stage[19]) leading_zeros = 5'd11;
+            else if (alu_mant_res_2nd_stage[18]) leading_zeros = 5'd12;
+            else if (alu_mant_res_2nd_stage[17]) leading_zeros = 5'd13;
+            else if (alu_mant_res_2nd_stage[16]) leading_zeros = 5'd14;
+            else if (alu_mant_res_2nd_stage[15]) leading_zeros = 5'd15;
+            else if (alu_mant_res_2nd_stage[14]) leading_zeros = 5'd16;
+            else if (alu_mant_res_2nd_stage[13]) leading_zeros = 5'd17;
+            else if (alu_mant_res_2nd_stage[12]) leading_zeros = 5'd18;
+            else if (alu_mant_res_2nd_stage[11]) leading_zeros = 5'd19;
+            else if (alu_mant_res_2nd_stage[10]) leading_zeros = 5'd20;
+            else if (alu_mant_res_2nd_stage[9])  leading_zeros = 5'd21;
+            else if (alu_mant_res_2nd_stage[8])  leading_zeros = 5'd22;
+            else if (alu_mant_res_2nd_stage[7])  leading_zeros = 5'd23;
+            else if (alu_mant_res_2nd_stage[6])  leading_zeros = 5'd24;
+            else if (alu_mant_res_2nd_stage[5])  leading_zeros = 5'd25;
+            else if (alu_mant_res_2nd_stage[4])  leading_zeros = 5'd26;
+            else if (alu_mant_res_2nd_stage[3])  leading_zeros = 5'd27;
+            else if (alu_mant_res_2nd_stage[2])  leading_zeros = 5'd28;
+            else if (alu_mant_res_2nd_stage[1])  leading_zeros = 5'd29;
+            else if (alu_mant_res_2nd_stage[0])  leading_zeros = 5'd30;
             else leading_zeros = 5'd31;
 
-            if (alu_mant_res[31]) begin
-                alu_mant_norm = {1'd0, alu_mant_res[31:1]};
-                alu_exp_norm  = {1'b0, exp_res} + 9'd1;
+            if (alu_mant_res_2nd_stage[31]) begin
+                alu_mant_norm = {1'd0, alu_mant_res_2nd_stage[31:1]};
+                alu_exp_norm  = {1'b0, alu_exp_res_2nd_stage} + 9'd1;
             end else begin
-                alu_mant_norm = alu_mant_res << leading_zeros;
-                alu_exp_norm  = {1'b0, exp_res} - {4'b0, leading_zeros};
+                alu_mant_norm = alu_mant_res_2nd_stage << leading_zeros;
+                alu_exp_norm  = {1'b0, alu_exp_res_2nd_stage} - {4'b0, leading_zeros};
             end
         end
     end
@@ -177,10 +177,10 @@ module fp32_addsub (
         alu_mant_out = alu_mant_norm[29:7];
         alu_exp_out  = alu_exp_norm;
 
-        if (exact_zero_add)
+        if (exact_zero_add_2nd_stage)
             alu_sign_out = 1'b0;  // exact 0 → +0
         else
-            alu_sign_out = alu_sign_res;
+            alu_sign_out = alu_sign_res_2nd_stage;
 
         y = {alu_sign_out, alu_exp_out[7:0], alu_mant_out};
 

@@ -211,24 +211,23 @@ module mv_mul_4x4_fp32 #(
     end
 
     // -------------------------
-    // Stage 4: output latch
+    // Stage 4: output
     // -------------------------
     always_ff @(posedge clk) begin
         if (rst) begin
             out_valid     <= 1'b0;
             out_vertex_id <= '0;
-            ox            <= 32'd0;
-            oy            <= 32'd0;
-            oz            <= 32'd0;
-            ow            <= 32'd0;
         end else begin
             out_valid     <= s3_valid;
             out_vertex_id <= s3_id;
-            ox            <= row0_sum;
-            oy            <= row1_sum;
-            oz            <= row2_sum;
-            ow            <= row3_sum;
         end
+    end
+
+    always_comb begin
+        ox = row0_sum;
+        oy = row1_sum;
+        oz = row2_sum;
+        ow = row3_sum;
     end
 
 endmodule
