@@ -8,7 +8,7 @@ Report : power
         -analysis_effort low
 Design : mv_mul_4x4_fp32
 Version: Q-2019.12
-Date   : Mon Dec 22 12:37:23 2025
+Date   : Wed Dec 24 11:32:23 2025
 ****************************************
 
 
@@ -107,141 +107,157 @@ fp32_mul_14_DW01_inc_0_DW01_inc_26
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
 fp32_mul_15_DW01_inc_0_DW01_inc_27
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_13_DW01_add_0_DW01_add_12
+fp32_mul_8_DW01_add_0_DW01_add_12
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
 fp32_mul_9_DW01_add_0_DW01_add_13
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_5_DW01_add_0_DW01_add_14
+fp32_mul_10_DW01_add_0_DW01_add_14
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_1_DW01_add_0_DW01_add_15
+fp32_mul_11_DW01_add_0_DW01_add_15
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_14_DW01_add_0_DW01_add_16
+fp32_mul_12_DW01_add_0_DW01_add_16
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_10_DW01_add_0_DW01_add_17
+fp32_mul_13_DW01_add_0_DW01_add_17
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_6_DW01_add_0_DW01_add_18
+fp32_mul_14_DW01_add_0_DW01_add_18
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_2_DW01_add_0_DW01_add_19
+fp32_mul_15_DW01_add_0_DW01_add_19
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_11_DW01_add_0_DW01_add_20
+fp32_mul_0_DW01_add_0_DW01_add_20
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_7_DW01_add_0_DW01_add_21
+fp32_mul_1_DW01_add_0_DW01_add_21
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_3_DW01_add_0_DW01_add_22
+fp32_mul_2_DW01_add_0_DW01_add_22
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_15_DW01_add_0_DW01_add_23
+fp32_mul_3_DW01_add_0_DW01_add_23
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_12_DW01_add_0_DW01_add_24
+fp32_mul_4_DW01_add_0_DW01_add_24
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_8_DW01_add_0_DW01_add_25
+fp32_mul_5_DW01_add_0_DW01_add_25
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_4_DW01_add_0_DW01_add_26
+fp32_mul_6_DW01_add_0_DW01_add_26
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_0_DW01_add_0_DW01_add_27
+fp32_mul_7_DW01_add_0_DW01_add_27
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_11_DW01_sub_J17_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_11_DW01_sub_J18_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_11_DW01_add_J19_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_10_DW01_sub_J21_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_10_DW01_sub_J17_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_10_DW01_add_J15_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_9_DW01_sub_J21_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_9_DW01_sub_J17_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_9_DW01_add_J20_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_8_DW01_sub_5
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_8_DW01_sub_J17_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_8_DW01_add_J18_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_7_DW01_sub_J17_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_7_DW01_sub_5
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_7_DW01_add_J19_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_6_DW01_sub_J17_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_6_DW01_sub_5
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_6_DW01_add_J21_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_5_DW01_sub_J17_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_5_DW01_sub_J16_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_5_DW01_add_1
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_4_DW01_sub_J18_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_4_DW01_sub_J17_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_4_DW01_add_J16_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
 fp32_addsub_3_DW01_sub_J17_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
 fp32_addsub_3_DW01_sub_J18_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_3_DW01_add_J19_0
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_2_DW01_sub_J21_0
+fp32_addsub_3_DW01_add_J20_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
 fp32_addsub_2_DW01_sub_J17_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
+fp32_addsub_2_DW01_sub_J21_0
+                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
 fp32_addsub_2_DW01_add_J18_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_1_DW01_sub_J16_0
+fp32_addsub_1_DW01_sub_5
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
 fp32_addsub_1_DW01_sub_J17_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_1_DW01_add_J20_0
+fp32_addsub_1_DW01_add_J21_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_0_DW01_sub_J15_0
+fp32_addsub_0_DW01_sub_5
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_0_DW01_sub_J17_0
+fp32_addsub_0_DW01_sub_J16_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_0_DW01_add_J16_0
+fp32_addsub_0_DW01_add_J17_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_11_DW01_sub_J24_0
+fp32_mul_15_DW_mult_uns_J36_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_11_DW01_sub_J25_0
+fp32_mul_14_DW_mult_uns_J37_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_11_DW01_add_J26_0
+fp32_mul_13_DW_mult_uns_J38_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_10_DW01_sub_J28_0
+fp32_mul_12_DW_mult_uns_J39_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_10_DW01_sub_J24_0
+fp32_mul_11_DW_mult_uns_J40_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_10_DW01_add_J22_0
+fp32_mul_10_DW_mult_uns_J41_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_9_DW01_sub_J28_0
+fp32_mul_9_DW_mult_uns_3
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_9_DW01_sub_J27_0
+fp32_mul_8_DW_mult_uns_J42_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_9_DW01_add_J24_0
+fp32_mul_7_DW_mult_uns_J36_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_8_DW01_sub_5
+fp32_mul_6_DW_mult_uns_J37_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_8_DW01_sub_J28_0
+fp32_mul_5_DW_mult_uns_J40_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_8_DW01_add_J27_0
+fp32_mul_4_DW_mult_uns_J38_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_7_DW01_sub_J23_0
+fp32_mul_3_DW_mult_uns_J39_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_7_DW01_sub_5
+fp32_mul_2_DW_mult_uns_J42_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_7_DW01_add_J26_0
+fp32_mul_1_DW_mult_uns_J41_0
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_6_DW01_sub_J22_0
+fp32_mul_0_DW_mult_uns_1
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_6_DW01_sub_5
+fp32_addsub_0_DW01_sub_6
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_6_DW01_add_J23_0
+fp32_addsub_0_DW01_sub_7
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_5_DW01_sub_J26_0
+fp32_addsub_1_DW01_sub_6
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_5_DW01_sub_J28_0
+fp32_addsub_1_DW01_sub_7
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_5_DW01_add_1
+fp32_addsub_2_DW01_sub_6
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_4_DW01_sub_J28_0
+fp32_addsub_2_DW01_sub_7
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_4_DW01_sub_J26_0
+fp32_addsub_3_DW01_sub_5
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_4_DW01_add_J27_0
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_15_DW_mult_uns_J29_0
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_14_DW_mult_uns_J30_0
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_13_DW_mult_uns_J31_0
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_12_DW_mult_uns_J32_0
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_11_DW_mult_uns_J33_0
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_10_DW_mult_uns_J34_0
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_9_DW_mult_uns_2
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_8_DW_mult_uns_J35_0
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_7_DW_mult_uns_J31_0
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_6_DW_mult_uns_J29_0
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_5_DW_mult_uns_J30_0
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_4_DW_mult_uns_J35_0
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_3_DW_mult_uns_J32_0
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_2_DW_mult_uns_J33_0
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_1_DW_mult_uns_1
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_mul_0_DW_mult_uns_J34_0
+fp32_addsub_3_DW01_sub_6
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
 fp32_addsub_4_DW01_sub_5
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
@@ -275,22 +291,6 @@ fp32_addsub_11_DW01_sub_5
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
 fp32_addsub_11_DW01_sub_6
                        ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_0_DW01_sub_6
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_0_DW01_sub_7
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_1_DW01_sub_5
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_1_DW01_sub_6
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_2_DW01_sub_8
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_2_DW01_sub_9
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_3_DW01_sub_5
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
-fp32_addsub_3_DW01_sub_6
-                       ZeroWireload      N16ADFP_StdCellss0p72vm40c
 
 
 Global Operating Voltage = 0.72 
@@ -302,12 +302,12 @@ Power-specific unit information :
     Leakage Power Units = 1nW
 
 
-  Cell Internal Power  =   9.6300 mW   (68%)
-  Net Switching Power  =   4.5676 mW   (32%)
+  Cell Internal Power  =  14.1806 mW   (70%)
+  Net Switching Power  =   6.2191 mW   (30%)
                          ---------
-Total Dynamic Power    =  14.1976 mW  (100%)
+Total Dynamic Power    =  20.3997 mW  (100%)
 
-Cell Leakage Power     =  13.9437 uW
+Cell Leakage Power     =  21.2188 uW
 
 
                  Internal         Switching           Leakage            Total
@@ -317,9 +317,9 @@ io_pad             0.0000            0.0000            0.0000            0.0000 
 memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
 black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
 clock_network      0.0000            0.0000            0.0000            0.0000  (   0.00%)
-register           3.4208            0.1822          946.9612            3.6039  (  25.36%)
+register           4.5564            0.1347        1.2343e+03            4.6923  (  22.98%)
 sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
-combinational      6.2092            4.3855        1.2997e+04           10.6076  (  74.64%)
+combinational      9.6242            6.0844        1.9984e+04           15.7285  (  77.02%)
 --------------------------------------------------------------------------------------------------
-Total              9.6300 mW         4.5676 mW     1.3944e+04 nW        14.2115 mW
+Total             14.1806 mW         6.2191 mW     2.1219e+04 nW        20.4208 mW
 1

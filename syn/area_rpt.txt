@@ -3,28 +3,28 @@
 Report : area
 Design : mv_mul_4x4_fp32
 Version: Q-2019.12
-Date   : Mon Dec 22 12:37:09 2025
+Date   : Wed Dec 24 11:32:08 2025
 ****************************************
 
 Library(s) Used:
 
     N16ADFP_StdCellss0p72vm40c (File: /opt/CIC/Cell_Libraries/ADFP/Executable_Package/Collaterals/IP/stdcell/N16ADFP_StdCell/NLDM/N16ADFP_StdCellss0p72vm40c.db)
 
-Number of ports:                        10196
-Number of nets:                         59963
-Number of cells:                        45802
-Number of combinational cells:          44337
-Number of sequential cells:              1317
+Number of ports:                        10198
+Number of nets:                         68560
+Number of cells:                        55842
+Number of combinational cells:          53874
+Number of sequential cells:              1820
 Number of macros/black boxes:               0
-Number of buf/inv:                       7133
-Number of references:                      38
+Number of buf/inv:                      10787
+Number of references:                      70
 
-Combinational area:              17991.435326
-Buf/Inv area:                     1373.241641
-Noncombinational area:            1228.919056
+Combinational area:              22054.861894
+Buf/Inv area:                     2247.315910
+Noncombinational area:            1698.278422
 Macro/Black Box area:                0.000000
 Net Interconnect area:      undefined  (Wire load has zero net area)
 
-Total cell area:                 19220.354382
+Total cell area:                 23753.140317
 Total area:                 undefined
 1
