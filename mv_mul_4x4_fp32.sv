@@ -162,26 +162,14 @@ module mv_mul_4x4_fp32 #(
     // valid/id alignment for stage2 (match adder outputs)
     logic        s2_valid;
     logic [IDW-1:0] s2_id;
-    logic [31:0] s2_a00, s2_a01;
-    logic [31:0] s2_a10, s2_a11;
-    logic [31:0] s2_a20, s2_a21;
-    logic [31:0] s2_a30, s2_a31;    
 
     always_ff @(posedge clk) begin
         if (rst) begin
             s2_valid <= 1'b0;
             s2_id    <= '0;
-            s2_a00   <= 32'd0; s2_a01 <= 32'd0;
-            s2_a10   <= 32'd0; s2_a11 <= 32'd0;
-            s2_a20   <= 32'd0; s2_a21 <= 32'd0;
-            s2_a30   <= 32'd0; s2_a31 <= 32'd0;
         end else begin
             s2_valid <= s1_valid;
             s2_id    <= s1_id;
-            s2_a00   <= a00; s2_a01 <= a01;
-            s2_a10   <= a10; s2_a11 <= a11;
-            s2_a20   <= a20; s2_a21 <= a21;
-            s2_a30   <= a30; s2_a31 <= a31;
         end
     end
 
@@ -191,13 +179,13 @@ module mv_mul_4x4_fp32 #(
     logic [31:0] row0_sum, row1_sum, row2_sum, row3_sum;
     logic        row0_ov,  row1_ov,  row2_ov,  row3_ov;
 
-    fp32_addsub u_add0_2(.clk(clk),.rst(rst),.sub(1'b0),.a(s2_a00),.b(s2_a01),.overflow(row0_ov),.y(row0_sum));
-    fp32_addsub u_add1_2(.clk(clk),.rst(rst),.sub(1'b0),.a(s2_a10),.b(s2_a11),.overflow(row1_ov),.y(row1_sum));
-    fp32_addsub u_add2_2(.clk(clk),.rst(rst),.sub(1'b0),.a(s2_a20),.b(s2_a21),.overflow(row2_ov),.y(row2_sum));
-    fp32_addsub u_add3_2(.clk(clk),.rst(rst),.sub(1'b0),.a(s2_a30),.b(s2_a31),.overflow(row3_ov),.y(row3_sum));
+    fp32_addsub u_add0_2(.clk(clk),.rst(rst),.sub(1'b0),.a(a00),.b(a01),.overflow(row0_ov),.y(row0_sum));
+    fp32_addsub u_add1_2(.clk(clk),.rst(rst),.sub(1'b0),.a(a10),.b(a11),.overflow(row1_ov),.y(row1_sum));
+    fp32_addsub u_add2_2(.clk(clk),.rst(rst),.sub(1'b0),.a(a20),.b(a21),.overflow(row2_ov),.y(row2_sum));
+    fp32_addsub u_add3_2(.clk(clk),.rst(rst),.sub(1'b0),.a(a30),.b(a31),.overflow(row3_ov),.y(row3_sum));
 
     // valid/id alignment for stage3 (match final-adder outputs)
-    logic        s3_valid;
+    logic           s3_valid;
     logic [IDW-1:0] s3_id;
 
     always_ff @(posedge clk) begin
@@ -210,24 +198,13 @@ module mv_mul_4x4_fp32 #(
         end
     end
 
-    // -------------------------
-    // Stage 4: output
-    // -------------------------
-    always_ff @(posedge clk) begin
-        if (rst) begin
-            out_valid     <= 1'b0;
-            out_vertex_id <= '0;
-        end else begin
-            out_valid     <= s3_valid;
-            out_vertex_id <= s3_id;
-        end
-    end
-
     always_comb begin
-        ox = row0_sum;
-        oy = row1_sum;
-        oz = row2_sum;
-        ow = row3_sum;
+        out_valid     = s3_valid;
+        out_vertex_id = s3_id;
+        ox            = row0_sum;
+        oy            = row1_sum;
+        oz            = row2_sum;
+        ow            = row3_sum;
     end
 
 endmodule

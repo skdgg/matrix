@@ -7,7 +7,7 @@ Report : timing
         -sort_by group
 Design : mv_mul_4x4_fp32
 Version: Q-2019.12
-Date   : Wed Dec 24 11:32:08 2025
+Date   : Wed Dec 24 23:15:58 2025
 ****************************************
 
  # A fanout number of 1000 was used for high fanout net computations.
@@ -15,8 +15,8 @@ Date   : Wed Dec 24 11:32:08 2025
 Operating Conditions: ff0p88v125c   Library: N16ADFP_StdCellff0p88v125c
 Wire Load Model Mode: segmented
 
-  Startpoint: m31_i[12] (input port clocked by clk)
-  Endpoint: m3_reg_reg_76_
+  Startpoint: in_valid (input port clocked by clk)
+  Endpoint: s1_valid_reg
             (rising edge-triggered flip-flop clocked by clk)
   Path Group: clk
   Path Type: min
@@ -30,25 +30,23 @@ Wire Load Model Mode: segmented
   clock clk (rise edge)                  0.0000     0.0000
   clock network delay (ideal)            0.2000     0.2000
   input external delay                   0.0000     0.2000 f
-  m31_i[12] (in)                         0.0032     0.2032 f
-  U3753/ZN (CKND1BWP20P90)               0.0078     0.2110 r
-  U3754/ZN (OAI22D1BWP16P90)             0.0123     0.2233 f
-  U3751/Z (CKBD1BWP20P90)                0.0156     0.2389 f
-  U3752/Z (CKBD1BWP16P90LVT)             0.0090     0.2479 f
-  m3_reg_reg_76_/D (DFQD2BWP16P90LVT)    0.0000     0.2479 f
-  data arrival time                                 0.2479
+  in_valid (in)                          0.0010     0.2010 f
+  U2760/Z (DEL025D1BWP20P90)             0.0354     0.2364 f
+  U3454/ZN (INR2D1BWP20P90)              0.0153     0.2518 f
+  s1_valid_reg/D (DFQD2BWP16P90LVT)      0.0000     0.2518 f
+  data arrival time                                 0.2518
 
   clock clk (rise edge)                  0.0000     0.0000
   clock network delay (ideal)            0.2000     0.2000
   clock uncertainty                      0.0200     0.2200
-  m3_reg_reg_76_/CP (DFQD2BWP16P90LVT)   0.0000     0.2200 r
-  library hold time                      0.0276     0.2476
-  data required time                                0.2476
+  s1_valid_reg/CP (DFQD2BWP16P90LVT)     0.0000     0.2200 r
+  library hold time                      0.0275     0.2475
+  data required time                                0.2475
   -----------------------------------------------------------
-  data required time                                0.2476
-  data arrival time                                -0.2479
+  data required time                                0.2475
+  data arrival time                                -0.2518
   -----------------------------------------------------------
-  slack (MET)                                       0.0003
+  slack (MET)                                       0.0043
 
 
 1

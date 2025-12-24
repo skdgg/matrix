@@ -9,7 +9,7 @@ Report : timing
         -sort_by group
 Design : mv_mul_4x4_fp32
 Version: Q-2019.12
-Date   : Wed Dec 24 11:32:08 2025
+Date   : Wed Dec 24 23:15:58 2025
 ****************************************
 
  # A fanout number of 1000 was used for high fanout net computations.
@@ -18,7 +18,7 @@ Operating Conditions: ss0p72vm40c   Library: N16ADFP_StdCellss0p72vm40c
 Wire Load Model Mode: segmented
 
   Startpoint: m_valid (input port clocked by clk)
-  Endpoint: s1_p13_reg_23_
+  Endpoint: s1_p01_reg_27_
             (rising edge-triggered flip-flop clocked by clk)
   Path Group: clk
   Path Type: max
@@ -26,64 +26,64 @@ Wire Load Model Mode: segmented
   Des/Clust/Port     Wire Load Model       Library
   ------------------------------------------------
   mv_mul_4x4_fp32    ZeroWireload          N16ADFP_StdCellss0p72vm40c
-  fp32_mul_8_DW_mult_uns_J42_0
+  fp32_mul_14_DW_mult_uns_J44_0
                      ZeroWireload          N16ADFP_StdCellss0p72vm40c
-  fp32_mul_8         ZeroWireload          N16ADFP_StdCellss0p72vm40c
+  fp32_mul_14        ZeroWireload          N16ADFP_StdCellss0p72vm40c
 
   Point                                                   Incr       Path
   --------------------------------------------------------------------------
   clock clk (rise edge)                                 0.0000     0.0000
   clock network delay (ideal)                           0.2000     0.2000
-  input external delay                                  0.6000     0.8000 f
-  m_valid (in)                                          0.0052     0.8052 f
-  U4367/ZN (INVD4BWP16P90LVT)                           0.0095     0.8147 r
-  U4100/ZN (CKND16BWP16P90LVT)                          0.0089     0.8236 f
-  U4473/Z (BUFFD16BWP16P90LVT)                          0.0204     0.8440 f
-  U4375/Z (BUFFD4BWP16P90LVT)                           0.0155     0.8595 f
-  U4147/Z (MUX2D4BWP16P90LVT)                           0.0213     0.8808 r
-  u_mul13/a[4] (fp32_mul_8)                             0.0000     0.8808 r
-  u_mul13/mult_61/a[4] (fp32_mul_8_DW_mult_uns_J42_0)   0.0000     0.8808 r
-  u_mul13/mult_61/U2501/Z (XOR2D4BWP16P90LVT)           0.0248     0.9057 f
-  u_mul13/mult_61/U1739/ZN (ND2D12BWP16P90LVT)          0.0083     0.9140 r
-  u_mul13/mult_61/U2743/Z (OR2D1BWP16P90LVT)            0.0110     0.9249 r
-  u_mul13/mult_61/U2807/ZN (ND2D2BWP16P90LVT)           0.0067     0.9317 f
-  u_mul13/mult_61/U756/S (FA1D1BWP16P90LVT)             0.0394     0.9710 r
-  u_mul13/mult_61/U2751/S (FA1D2BWP16P90LVT)            0.0447     1.0158 f
-  u_mul13/mult_61/U2381/Z (XOR3D4BWP16P90LVT)           0.0415     1.0573 r
-  u_mul13/mult_61/U2116/Z (XOR2D4BWP16P90LVT)           0.0206     1.0779 f
-  u_mul13/mult_61/U2115/Z (XOR2D4BWP16P90LVT)           0.0191     1.0970 r
-  u_mul13/mult_61/U1688/ZN (ND2D4BWP16P90LVT)           0.0081     1.1051 f
-  u_mul13/mult_61/U1702/ZN (OAI21D4BWP16P90LVT)         0.0104     1.1154 r
-  u_mul13/mult_61/U2428/ZN (AOI21D2BWP16P90LVT)         0.0115     1.1269 f
-  u_mul13/mult_61/U2802/ZN (OAI21D4BWP16P90LVT)         0.0062     1.1332 r
-  u_mul13/mult_61/U2805/ZN (AOI21D4BWP16P90LVT)         0.0105     1.1437 f
-  u_mul13/mult_61/U2439/ZN (OAI21D2BWP16P90LVT)         0.0105     1.1542 r
-  u_mul13/mult_61/U2650/ZN (CKND2BWP16P90LVT)           0.0060     1.1603 f
-  u_mul13/mult_61/U2648/ZN (CKND2D4BWP16P90LVT)         0.0050     1.1653 r
-  u_mul13/mult_61/U2649/ZN (ND2D2BWP16P90LVT)           0.0070     1.1723 f
-  u_mul13/mult_61/product[44] (fp32_mul_8_DW_mult_uns_J42_0)
-                                                        0.0000     1.1723 f
-  u_mul13/U88/Z (OR2D1BWP16P90LVT)                      0.0121     1.1844 f
-  u_mul13/U39/Z (OR3D2BWP16P90LVT)                      0.0167     1.2011 f
-  u_mul13/U41/ZN (INR4D2BWP16P90LVT)                    0.0140     1.2151 r
-  u_mul13/U23/ZN (ND2D2BWP16P90LVT)                     0.0115     1.2267 f
-  u_mul13/U153/ZN (INR2D1BWP16P90LVT)                   0.0110     1.2376 f
-  u_mul13/y[23] (fp32_mul_8)                            0.0000     1.2376 f
-  U6039/Z (AN2D1BWP16P90LVT)                            0.0094     1.2470 f
-  s1_p13_reg_23_/D (DFQD2BWP16P90LVT)                   0.0000     1.2470 f
-  data arrival time                                                1.2470
+  input external delay                                  0.6000     0.8000 r
+  m_valid (in)                                          0.0065     0.8065 r
+  U3653/Z (BUFFD8BWP16P90LVT)                           0.0174     0.8239 r
+  U3758/Z (BUFFD2BWP16P90LVT)                           0.0185     0.8424 r
+  U3729/Z (MUX2D1BWP16P90LVT)                           0.0215     0.8639 f
+  u_mul01/a[5] (fp32_mul_14)                            0.0000     0.8639 f
+  u_mul01/mult_61/a[5] (fp32_mul_14_DW_mult_uns_J44_0)
+                                                        0.0000     0.8639 f
+  u_mul01/mult_61/U2359/ZN (INVD4BWP16P90LVT)           0.0092     0.8731 r
+  u_mul01/mult_61/U2331/ZN (CKND8BWP16P90LVT)           0.0084     0.8815 f
+  u_mul01/mult_61/U2282/Z (XOR2D1BWP16P90LVT)           0.0208     0.9023 r
+  u_mul01/mult_61/U2267/ZN (ND2D4BWP16P90LVT)           0.0085     0.9109 f
+  u_mul01/mult_61/U2605/Z (BUFFD4BWP16P90LVT)           0.0134     0.9243 f
+  u_mul01/mult_61/U1726/ZN (OAI22D2BWP16P90LVT)         0.0113     0.9355 r
+  u_mul01/mult_61/U827/CO (FA1D1BWP16P90LVT)            0.0257     0.9612 r
+  u_mul01/mult_61/U2576/S (FA1D2BWP16P90LVT)            0.0468     1.0081 f
+  u_mul01/mult_61/U2544/S (FA1D2BWP16P90LVT)            0.0374     1.0455 r
+  u_mul01/mult_61/U2335/Z (XOR2D1BWP16P90LVT)           0.0232     1.0687 f
+  u_mul01/mult_61/U2545/Z (OR2D2BWP16P90LVT)            0.0177     1.0864 f
+  u_mul01/mult_61/U1844/ZN (IAOI21D4BWP16P90LVT)        0.0084     1.0948 r
+  u_mul01/mult_61/U2215/ZN (OAI21D2BWP16P90LVT)         0.0094     1.1042 f
+  u_mul01/mult_61/U1876/ZN (AOI21D4BWP16P90LVT)         0.0088     1.1130 r
+  u_mul01/mult_61/U2620/ZN (OAI21D4BWP16P90LVT)         0.0104     1.1234 f
+  u_mul01/mult_61/U2610/ZN (AOI21D4BWP16P90LVT)         0.0099     1.1334 r
+  u_mul01/mult_61/U2487/ZN (OAI21D4BWP16P90LVT)         0.0098     1.1432 f
+  u_mul01/mult_61/U2474/ZN (AOI21D4BWP16P90LVT)         0.0107     1.1539 r
+  u_mul01/mult_61/U2266/ZN (OAI21D2BWP16P90LVT)         0.0089     1.1628 f
+  u_mul01/mult_61/U2243/ZN (XNR2D4BWP16P90LVT)          0.0208     1.1836 r
+  u_mul01/mult_61/product[47] (fp32_mul_14_DW_mult_uns_J44_0)
+                                                        0.0000     1.1836 r
+  u_mul01/U20/ZN (IIND3D1BWP16P90LVT)                   0.0110     1.1947 r
+  u_mul01/U38/ZN (INR4D1BWP16P90LVT)                    0.0069     1.2016 f
+  u_mul01/U34/ZN (ND2D2BWP16P90LVT)                     0.0079     1.2095 r
+  u_mul01/U35/ZN (INR2D1BWP16P90LVT)                    0.0117     1.2213 r
+  u_mul01/y[27] (fp32_mul_14)                           0.0000     1.2213 r
+  U3650/Z (AN2D1BWP16P90LVT)                            0.0113     1.2326 r
+  s1_p01_reg_27_/D (DFQD2BWP16P90LVT)                   0.0000     1.2326 r
+  data arrival time                                                1.2326
 
   clock clk (rise edge)                                 1.0000     1.0000
   clock network delay (ideal)                           0.2000     1.2000
   clock uncertainty                                    -0.0200     1.1800
-  s1_p13_reg_23_/CP (DFQD2BWP16P90LVT)                  0.0000     1.1800 r
-  library setup time                                    0.0207     1.2007
-  data required time                                               1.2007
+  s1_p01_reg_27_/CP (DFQD2BWP16P90LVT)                  0.0000     1.1800 r
+  library setup time                                   -0.0042     1.1758
+  data required time                                               1.1758
   --------------------------------------------------------------------------
-  data required time                                               1.2007
-  data arrival time                                               -1.2470
+  data required time                                               1.1758
+  data arrival time                                               -1.2326
   --------------------------------------------------------------------------
-  slack (VIOLATED)                                                -0.0464
+  slack (VIOLATED)                                                -0.0568
 
 
 1

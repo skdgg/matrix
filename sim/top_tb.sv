@@ -1,5 +1,5 @@
 `timescale 1ns/10ps
-`define CYCLE 5.0  // Cycle time
+`define CYCLE 1.0  // Cycle time
 `define MAX 1000000 // Max cycle number
 `ifdef SYN
 `include "../syn/top_syn.v"
@@ -50,7 +50,7 @@ end
   logic clk, rst;
 
   initial clk = 0;
-  always #5 clk = ~clk; // 100MHz
+  always #(`CYCLE/2) clk = ~clk; // 100MHz
 
   // -------------------------
   // DUT I/O
@@ -116,8 +116,6 @@ end
 
       in_vertex_id = in_mem[base+0][IDW-1:0];
 
-      m_valid = 1'b1;
-
       // matrix row-major m00..m33
       m00 = in_mem[base+1];  m01 = in_mem[base+2];  m02 = in_mem[base+3];  m03 = in_mem[base+4];
       m10 = in_mem[base+5];  m11 = in_mem[base+6];  m12 = in_mem[base+7];  m13 = in_mem[base+8];
@@ -166,7 +164,7 @@ end
     m10='0; m11='0; m12='0; m13='0;
     m20='0; m21='0; m22='0; m23='0;
     m30='0; m31='0; m32='0; m33='0;
-    out_ready = 1'd0;
+    out_ready = 1'b1;
 
     // load hex
     $display("[TB] readmemh %s", IN_HEX);
@@ -182,14 +180,15 @@ end
 
     // feed cases: one per cycle
     for (i = 0; i < N_CASES; i++) begin
+      # 0.1;
+      in_valid = 1'b1;
+      m_valid = 1'b1;
       load_case_input(i);
       push_case_golden(i);
 
-      in_valid = 1'b1;
       @(posedge clk);
     end
-    in_valid  = 1'b0;
-    out_ready = 1'b1;
+    #0.1 in_valid  = 1'b0;
 
     // wait drain: allow pipeline to flush
     repeat (LATENCY + 10) @(posedge clk);
@@ -210,7 +209,7 @@ end
   // -------------------------
   gold_t g;                      
 
-  always_ff @(posedge clk) begin
+  always_ff @(negedge clk) begin
     if (rst) begin
       err_count <= 0;            
     end else begin
