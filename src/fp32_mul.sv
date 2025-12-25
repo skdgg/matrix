@@ -1,6 +1,8 @@
 // FP32 Multiply (NO rounding; TRUNCATE after normalization)
 // - denorm: treated as exp=1, hidden=0
 // - result: normalized then TRUNCATE fraction (no GRS, no RNE)
+`ifndef FP32_MUL_SV
+`define FP32_MUL_SV
 module fp32_mul (
     input  logic [31:0] a,
     input  logic [31:0] b,
@@ -87,3 +89,4 @@ module fp32_mul (
     end
 
 endmodule
+`endif // FP32_MUL_SV
