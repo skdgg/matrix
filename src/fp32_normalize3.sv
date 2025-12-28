@@ -101,7 +101,7 @@ module fp32_normalize3 #(
 
     fast_inv_sqrt u_inv (
         .clk      (clk),
-        .rst_n    (~rst),
+        .rst      (rst),
         .in_valid (dot_valid_d1),
         .x_fp32   (len2_latched),
         .out_valid(inv_valid),

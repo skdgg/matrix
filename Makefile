@@ -10,6 +10,10 @@ FSDB_DEF := +FSDB
 else ifeq ($(FSDB),2)
 FSDB_DEF := +FSDB_ALL
 endif
+TOL_DEF :=
+ifeq ($(TOL),1)
+TOL_DEF := +TOL
+endif
 CYCLE=`grep -v '^$$' $(root_dir)/sim/CYCLE`
 MAX=`grep -v '^$$' $(root_dir)/sim/MAX`
 
@@ -24,19 +28,18 @@ $(syn_dir):
 TA_run: 
   
 # RTL simulation
-rtl_all: rtl0 rtl1 rtl2 rtl3 rtl4 rtl5 rtl6
+rtl_all: mv_mul vertex
 
 rtl0: | $(bld_dir)
 	@if [ $$(echo $(CYCLE) '>' 20.0 | bc -l) -eq 1 ]; then \
 		echo "Cycle time shouldn't exceed 20"; \
 		exit 1; \
 	fi; \
-	make -C $(sim_dir)/prog0/; \
+	echo Running mat_vec_mul simulation...
 	cd $(bld_dir); \
-	vcs -R -sverilog $(root_dir)/$(sim_dir)/top_tb.sv -debug_access+all -full64 \
+	vcs -R -sverilog $(root_dir)/$(sim_dir)/mv_mul_tb.sv -debug_access+all -full64 \
 	+incdir+$(root_dir)/$(src_dir)+$(root_dir)/$(src_dir)/AXI+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
-	+define+prog0$(FSDB_DEF) \
-	+prog_path=$(root_dir)/$(sim_dir)/prog0 \
+	+define$(FSDB_DEF) \
 	+rdcycle=1 \
 	+notimingcheck
 
@@ -45,12 +48,11 @@ rtl1: | $(bld_dir)
 		echo "Cycle time shouldn't exceed 20"; \
 		exit 1; \
 	fi; \
-	make -C $(sim_dir)/prog1/; \
+	echo Running vertex_processing simulation...
 	cd $(bld_dir); \
-	vcs -R -sverilog $(root_dir)/$(sim_dir)/top_tb.sv -debug_access+all -full64 \
+	vcs -R -sverilog $(root_dir)/$(sim_dir)/vertex_tb.sv -debug_access+all -full64 \
 	+incdir+$(root_dir)/$(src_dir)+$(root_dir)/$(src_dir)/AXI+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
-	+define+prog1$(FSDB_DEF) \
-	+prog_path=$(root_dir)/$(sim_dir)/prog1 \
+	+define$(FSDB_DEF)$(TOL_DEF) \
 	+notimingcheck
 
 rtl2: | $(bld_dir)

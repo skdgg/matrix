@@ -8,7 +8,7 @@ module fast_inv_sqrt #(
     parameter logic [31:0] MAGIC = 32'h5f3759df
 )(
     input  logic        clk,
-    input  logic        rst_n,
+    input  logic        rst,
 
     input  logic        in_valid,
     input  logic [31:0] x_fp32,
@@ -37,17 +37,19 @@ module fast_inv_sqrt #(
     fp32_mul u_mul_x2 (.a(x_fp32), .b(FP32_HALF), .overflow(), .y(x2_s1));
     fp32_mul u_mul_yy (.a(y0_c),   .b(y0_c),      .overflow(), .y(yy_s1));
 
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst) begin
             v1   <= 1'b0;
             y0_1 <= 32'd0;
             x2_1 <= 32'd0;
             yy_1 <= 32'd0;
         end else begin
             v1   <= in_valid;
-            y0_1 <= y0_c;
-            x2_1 <= x2_s1;
-            yy_1 <= yy_s1;
+            if(in_valid) begin
+                y0_1 <= y0_c;
+                x2_1 <= x2_s1;
+                yy_1 <= yy_s1;
+            end
         end
     end
 
@@ -61,8 +63,8 @@ module fast_inv_sqrt #(
 
     fp32_mul u_mul_t2 (.a(x2_1), .b(yy_1), .overflow(), .y(t2_s2));
 
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst) begin
             v2   <= 1'b0;
             y0_2 <= 32'd0;
             t2_2 <= 32'd0;
@@ -92,8 +94,8 @@ module fast_inv_sqrt #(
     logic        v3;
     logic [31:0] y0_3, t3_3;
 
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst) begin
             v3       <= 1'b0;
             y0_3     <= 32'd0;
             t3_3     <= 32'd0;

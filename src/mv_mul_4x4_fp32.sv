@@ -110,10 +110,12 @@ module mv_mul_4x4_fp32 (
             s1_valid <= 1'b0;
         end else begin
             s1_valid <= in_valid;
-            s1_p00 <= p00; s1_p01 <= p01; s1_p02 <= p02; s1_p03 <= p03;
-            s1_p10 <= p10; s1_p11 <= p11; s1_p12 <= p12; s1_p13 <= p13;
-            s1_p20 <= p20; s1_p21 <= p21; s1_p22 <= p22; s1_p23 <= p23;
-            s1_p30 <= p30; s1_p31 <= p31; s1_p32 <= p32; s1_p33 <= p33;
+            if(in_valid) begin
+                s1_p00 <= p00; s1_p01 <= p01; s1_p02 <= p02; s1_p03 <= p03;
+                s1_p10 <= p10; s1_p11 <= p11; s1_p12 <= p12; s1_p13 <= p13;
+                s1_p20 <= p20; s1_p21 <= p21; s1_p22 <= p22; s1_p23 <= p23;
+                s1_p30 <= p30; s1_p31 <= p31; s1_p32 <= p32; s1_p33 <= p33;
+            end
         end
     end
 

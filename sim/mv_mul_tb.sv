@@ -10,13 +10,19 @@
 `include "../src/mv_mul_4x4_fp32.sv"
 `endif
 
-module mv_tb;
+module mv_mul_tb;
 
 initial begin
 `ifdef SYN
   $display("[TB] SYN mode");
 `else
   $display("[TB] RTL mode");
+`endif
+
+`ifdef FSDB_ALL
+    $fsdbDumpfile("mat_vec_mul.fsdb");
+    $fsdbDumpvars(0, mv_mul_tb);
+    $fsdbDumpMDA();
 `endif
 end
 
@@ -159,10 +165,15 @@ end
 
     if (gold_q.size() != 0)
       $display("[TB][WARN] gold_q not empty: %0d", gold_q.size());
-    else if (err_count == 0)
-      $display("[TB] PASS");
-    else
-      $display("[TB] FAIL err_count=%0d", err_count);
+    else begin
+      $display("------------------------------------------------------------");
+      $display("Matrix Vextor Multiplication simulation done!");
+      if (err_count == 0)
+        $display("PASS!");
+      else
+        $display("FAIL err_count=%0d", err_count);
+      $display("------------------------------------------------------------");
+    end
 
     $finish;
   end
