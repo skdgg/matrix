@@ -1,9 +1,11 @@
 #   Read in top module
-#read_file -autoread -top CHIP {../src/ ../include}
-read_file -format sverilog {../mv_mul_4x4_fp32.sv}
-analyze -format sverilog ../mv_mul_4x4_fp32.sv
+read_file -format sverilog {../src/vertex_processing.sv}
+analyze -format sverilog ../src/delay_reg.sv
+analyze -format sverilog ../src/fp32_normalize3.sv
+analyze -format sverilog ../src/fast_inv_sqrt.sv
+
 # SET POWER INTENT and ENVIRONMENT ###################################
-current_design mv_mul_4x4_fp32
+current_design vertex_processing
 link
 
 #   Set Design Environment
@@ -32,3 +34,4 @@ report_power -analysis_effort low > ../syn/power_rpt.txt
 write -hierarchy -format verilog -output {../syn/top_syn.v}
 write_sdf -version 3.0 -context verilog {../syn/top_syn.sdf}
 
+exit

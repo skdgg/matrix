@@ -5,9 +5,9 @@ Report : timing
         -delay min
         -max_paths 1
         -sort_by group
-Design : mv_mul_4x4_fp32
+Design : vertex_processing
 Version: Q-2019.12
-Date   : Wed Dec 24 23:15:58 2025
+Date   : Sun Dec 28 16:32:18 2025
 ****************************************
 
  # A fanout number of 1000 was used for high fanout net computations.
@@ -15,38 +15,49 @@ Date   : Wed Dec 24 23:15:58 2025
 Operating Conditions: ff0p88v125c   Library: N16ADFP_StdCellff0p88v125c
 Wire Load Model Mode: segmented
 
-  Startpoint: in_valid (input port clocked by clk)
-  Endpoint: s1_valid_reg
+  Startpoint: Ldy_i[22] (input port clocked by clk)
+  Endpoint: i_fp32_normalize3_Ld/dv_y_reg_0__22_
             (rising edge-triggered flip-flop clocked by clk)
   Path Group: clk
   Path Type: min
 
   Des/Clust/Port     Wire Load Model       Library
   ------------------------------------------------
-  mv_mul_4x4_fp32    ZeroWireload          N16ADFP_StdCellss0p72vm40c
+  vertex_processing  ZeroWireload          N16ADFP_StdCellss0p72vm40c
+  fp32_mul_5_DW_mult_uns_J8_0
+                     ZeroWireload          N16ADFP_StdCellss0p72vm40c
+  fp32_mul_5         ZeroWireload          N16ADFP_StdCellss0p72vm40c
+  fp32_dot3_0        ZeroWireload          N16ADFP_StdCellss0p72vm40c
+  fp32_normalize3_DOT_LAT2_INV_LAT3_0
+                     ZeroWireload          N16ADFP_StdCellss0p72vm40c
 
-  Point                                    Incr       Path
-  -----------------------------------------------------------
-  clock clk (rise edge)                  0.0000     0.0000
-  clock network delay (ideal)            0.2000     0.2000
-  input external delay                   0.0000     0.2000 f
-  in_valid (in)                          0.0010     0.2010 f
-  U2760/Z (DEL025D1BWP20P90)             0.0354     0.2364 f
-  U3454/ZN (INR2D1BWP20P90)              0.0153     0.2518 f
-  s1_valid_reg/D (DFQD2BWP16P90LVT)      0.0000     0.2518 f
-  data arrival time                                 0.2518
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                 0.0000     0.0000
+  clock network delay (ideal)                           0.2000     0.2000
+  input external delay                                  0.0000     0.2000 f
+  Ldy_i[22] (in)                                        0.0016     0.2016 f
+  U782/ZN (INVD1BWP16P90LVT)                            0.0083     0.2099 r
+  U766/ZN (INVD4BWP16P90LVT)                            0.0134     0.2233 f
+  i_fp32_normalize3_Ld/vy[22] (fp32_normalize3_DOT_LAT2_INV_LAT3_0)
+                                                        0.0000     0.2233 f
+  i_fp32_normalize3_Ld/U281/ZN (INR2D1BWP16P90LVT)      0.0120     0.2353 f
+  i_fp32_normalize3_Ld/dv_y_reg_0__22_/D (DFQD2BWP16P90LVT)
+                                                        0.0000     0.2353 f
+  data arrival time                                                0.2353
 
-  clock clk (rise edge)                  0.0000     0.0000
-  clock network delay (ideal)            0.2000     0.2000
-  clock uncertainty                      0.0200     0.2200
-  s1_valid_reg/CP (DFQD2BWP16P90LVT)     0.0000     0.2200 r
-  library hold time                      0.0275     0.2475
-  data required time                                0.2475
-  -----------------------------------------------------------
-  data required time                                0.2475
-  data arrival time                                -0.2518
-  -----------------------------------------------------------
-  slack (MET)                                       0.0043
+  clock clk (rise edge)                                 0.0000     0.0000
+  clock network delay (ideal)                           0.2000     0.2000
+  clock uncertainty                                     0.0200     0.2200
+  i_fp32_normalize3_Ld/dv_y_reg_0__22_/CP (DFQD2BWP16P90LVT)
+                                                        0.0000     0.2200 r
+  library hold time                                     0.0275     0.2475
+  data required time                                               0.2475
+  --------------------------------------------------------------------------
+  data required time                                               0.2475
+  data arrival time                                               -0.2353
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                -0.0122
 
 
 1

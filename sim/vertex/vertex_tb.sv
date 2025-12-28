@@ -2,7 +2,7 @@
 `define CYCLE 1.0
 
 `ifdef SYN
-`include "../syn/vertex_processing_syn.v"
+`include "../syn/top_syn.v"
 `include "/opt/CIC/Cell_Libraries/ADFP/Executable_Package/Collaterals/IP/stdcell/N16ADFP_StdCell/VERILOG/N16ADFP_StdCell.v"
 `else
 `include "../src/vertex_processing.sv"
@@ -20,7 +20,7 @@ module vertex_tb;
     initial begin
         `ifdef SYN
             $display("[TB] SYN mode");
-            $sdf_annotate("../syn/vertex_processing.sdf", u_dut);
+            $sdf_annotate("../syn/top_syn.sdf", u_dut);
         `else
             $display("[TB] RTL mode");
         `endif

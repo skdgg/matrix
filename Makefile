@@ -66,7 +66,7 @@ syn1: | $(bld_dir)
 	vcs -R -sverilog +neg_tchk -negdelay -v /usr/cad/CBDK/Executable_Package/Collaterals/IP/stdcell/N16ADFP_StdCell/VERILOG/N16ADFP_StdCell.v \
 	$(root_dir)/$(sim_dir)/vertex/vertex_tb.sv -debug_access+all -full64 -diag=sdf:verbose \
 	+incdir+$(root_dir)/$(syn_dir)+$(root_dir)/$(src_dir)+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
-	+define+SYN$(FSDB_DEF) \
+	+define+SYN$(FSDB_DEF)$(TOL_DEF) \
 	+no_notifier \
 
 # Utilities
