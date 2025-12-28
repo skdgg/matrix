@@ -56,11 +56,11 @@ module vertex_processing (
     
     // Delays of signals, for alignment
     localparam P_SCALE_D      = MAT_VEC_MUL_D;
-    localparam LP_INTENSITY_D = FP32_ADDSUB_D + VEC_NORM_D + FP32_DOT3_D;
+    localparam LP_INTENSITY_D = MAT_VEC_MUL_D + FP32_ADDSUB_D + FP32_DOT3_D + INV_SQRT_D + FP32_MUL_D;
     localparam LD_INTENSITY_D = VEC_NORM_D + FP32_DOT3_D;
     localparam LA_INTENSITY_D = VEC_NORM_D + FP32_DOT3_D + FP32_MUL_D;
 
-    localparam LONGEST_PATH   = MAT_VEC_MUL_D + FP32_ADDSUB_D + VEC_NORM_D + FP32_DOT3_D + FP32_MUL_D + FP32_ADDSUB_D;
+    localparam LONGEST_PATH   = MAT_VEC_MUL_D + FP32_ADDSUB_D + VEC_NORM_D + FP32_MUL_D + FP32_ADDSUB_D;
     localparam PZ_INV_D       = LONGEST_PATH - MAT_VEC_MUL_D - FP32_MUL_D - INV_SQRT_D;
     localparam PXY_D          = PZ_INV_D;
 
@@ -165,7 +165,7 @@ module vertex_processing (
         end
     end
 
-    // delay 1 / Pz output for 10 cycles to align to Brightness result 
+    // delay 1 / Pz output for PZ_INV_D cycles to align to Brightness result 
     logic Pz_inv_valid;
     logic [31:0] Pz_inv;
 
@@ -188,7 +188,7 @@ module vertex_processing (
      * Py = Vy' * Py_scale * (1 / Pz)
      */
 
-    // Delay P_scale for MAT_VEC_MUL_D cycles
+    // Delay P_scale for MAT_VEC_MUL_D cycles, align with V'
     logic P_scale_valid;
     logic [31:0] Px_scale, Py_scale;
 
@@ -233,7 +233,7 @@ module vertex_processing (
     ) i_delay_reg_V_prime_times_P_scale (
         .clk      (clk),
         .rst      (rst),
-        .in_valid (V_prime_valid),
+        .in_valid (V_prime_valid && P_scale_valid),
         .data_in  ({Vx_prime_times_Px_scale_, Vy_prime_times_Py_scale_}),
         .out_valid(V_prime_times_P_scale_valid),
         .data_out ({Vx_prime_times_Px_scale, Vy_prime_times_Py_scale})
@@ -257,7 +257,7 @@ module vertex_processing (
         .y       (Py_)
     );
 
-    // delay Px, Py outputs for 9 cycles to align to Brightness result 
+    // delay Px, Py outputs for PXY_D cycles to align with Brightness result 
     logic        P_valid;
     logic [31:0] Px, Py;
 
@@ -268,7 +268,7 @@ module vertex_processing (
     ) i_delay_reg_P_xy (
         .clk      (clk),
         .rst      (rst),
-        .in_valid (V_prime_times_P_scale_valid),
+        .in_valid (V_prime_times_P_scale_valid && Vz_prime_inv_sqrt_valid),
         .data_in  ({Px_, Py_}),
         .out_valid(P_valid),
         .data_out ({Px, Py})
@@ -312,23 +312,6 @@ module vertex_processing (
         end
     end
 
-    // Delay N_hat for later dot product with Lp'_hat
-    logic N_hat_delay_valid;
-    logic [31:0] Nx_hat_delay, Ny_hat_delay, Nz_hat_delay;
-
-    delay_reg # (
-        .SIZE (32),
-        .NUM  (3),
-        .DELAY(MAT_VEC_MUL_D + FP32_ADDSUB_D)
-    ) i_delay_reg_N_hat (
-        .clk(clk),
-        .rst(rst),
-        .in_valid(N_hat_valid),
-        .data_in({Nx_hat, Ny_hat, Nz_hat}),
-        .out_valid(N_hat_delay_valid),
-        .data_out({Nz_hat_delay, Ny_hat_delay, Nz_hat_delay})
-    );
-
     // ===============================
     //     Brightness Calculation
     // ===============================
@@ -342,24 +325,24 @@ module vertex_processing (
      */
 
     // delay Point light coordinate inputs for MAT_VEC_MUL_D cycle
-    // waiting V' valid
-    logic Lp_delay_valid, Lp_vec_valid;
+    // align with V_prime_valid
+    logic Lp_valid, Lp_vec_valid;
     logic [31:0] Lpx, Lpy, Lpz;
 
     delay_reg #(
-        .SIZE(32),
-        .NUM(3),
+        .SIZE (32),
+        .NUM  (3),
         .DELAY(MAT_VEC_MUL_D)
     ) i_delay_reg_Lp (
         .clk      (clk),
         .rst      (rst),
         .in_valid (Lp_valid_i),
         .data_in  ({Lpx_i, Lpy_i, Lpz_i}),
-        .out_valid(Lp_delay_valid),
+        .out_valid(Lp_valid),
         .data_out ({Lpx, Lpy, Lpz})
     );
 
-    // Point light coordinate substracts V' coordinate,
+    // Point light coordinate minus V' coordinate,
     // making a vector from vertex to the light
     logic [31:0] Lpx_sub_Vx_prime_, Lpy_sub_Vy_prime_, Lpz_sub_Vz_prime_;
     logic [31:0] Lpx_vec, Lpy_vec, Lpz_vec;
@@ -396,65 +379,126 @@ module vertex_processing (
             Lpy_vec      <= 32'd0;
             Lpz_vec      <= 32'd0;
         end else begin
-            Lp_vec_valid <= Lp_delay_valid;
+            Lp_vec_valid <= Lp_valid;
             Lpx_vec      <= Lpx_sub_Vx_prime_;
             Lpy_vec      <= Lpy_sub_Vy_prime_;
             Lpz_vec      <= Lpz_sub_Vz_prime_;
         end
     end
 
-    // Normalize the Point light vector
-    logic Lp_hat_valid_, Lp_hat_valid;
-    logic [31:0] Lpx_hat_, Lpy_hat_, Lpz_hat_;
-    logic [31:0] Lpx_hat, Lpy_hat, Lpz_hat;
+    // Delay Lp_vec for later dot product with N_hat
+    logic Lp_vec_delay_valid;
+    logic [31:0] Lpx_vec_delay, Lpy_vec_delay, Lpz_vec_delay;
 
-    fp32_normalize3 #(
-        .DOT_LAT(2),
-        .INV_LAT(3)
-    ) i_fp32_normalize3_Lp (
+    delay_reg # (
+        .SIZE (32),
+        .NUM  (3),
+        .DELAY(VEC_NORM_D - MAT_VEC_MUL_D - FP32_ADDSUB_D)
+    ) i_delay_reg_Lp_vec (
+        .clk      (clk),
+        .rst      (rst),
+        .in_valid(Lp_vec_valid),
+        .data_in  ({Lpx_vec, Lpy_vec, Lpz_vec}),
+        .out_valid(Lp_vec_delay_valid),
+        .data_out ({Lpx_vec_delay, Lpy_vec_delay, Lpz_vec_delay})
+    );
+
+    // Normalize the Point light vector, becoming Lp_prime_hat
+    // then calculate dot product with N_hat
+    // fuse these 2 operations into:
+    // 1. Lp_vec dot product with Lp_vec
+    // 2. inv_sqrt(Lp_vec_dot_Lp_vec)
+    // 2. Lp_vec dot product with N_hat
+    // 3. times two results of step 2 together
+    
+    // 1. Lp_vec dot Lp_vec
+    logic Lp_vec_dot_Lp_vec_valid_, Lp_vec_dot_Lp_vec_valid;
+    logic [31:0] Lp_vec_dot_Lp_vec_, Lp_vec_dot_Lp_vec;
+
+    fp32_dot3 i_fp32_dot3_Lp_Lp (
         .clk      (clk),
         .rst      (rst),
         .in_valid (Lp_vec_valid),
-        .vx       (Lpx_vec),
-        .vy       (Lpy_vec),
-        .vz       (Lpz_vec),
-        .out_valid(Lp_hat_valid_),
-        .ox       (Lpx_hat_),
-        .oy       (Lpy_hat_),
-        .oz       (Lpz_hat_)
+        .ax       (Lpx_vec),
+        .ay       (Lpy_vec),
+        .az       (Lpz_vec),
+        .bx       (Lpx_vec),
+        .by       (Lpy_vec),
+        .bz       (Lpz_vec),
+        .out_valid(Lp_vec_dot_Lp_vec_valid_),
+        .y        (Lp_vec_dot_Lp_vec_)
     );
 
     always_ff @(posedge clk) begin
         if(rst) begin
-            Lp_hat_valid <= 1'b0;
-            Lpx_hat      <= 32'd0;
-            Lpy_hat      <= 32'd0;
-            Lpz_hat      <= 32'd0;
+            Lp_vec_dot_Lp_vec_valid <= 1'b0;
+            Lp_vec_dot_Lp_vec       <= 32'd0;
         end else begin
-            Lp_hat_valid <= Lp_hat_valid_;
-            Lpx_hat      <= Lpx_hat_;
-            Lpy_hat      <= Lpy_hat_;
-            Lpz_hat      <= Lpz_hat_;
+            Lp_vec_dot_Lp_vec_valid <= Lp_vec_dot_Lp_vec_valid_;
+            Lp_vec_dot_Lp_vec       <= Lp_vec_dot_Lp_vec_;
         end
     end
 
-    // Calculate dot product of normalized Point light vector with
-    // unit normal vector of vertex
-    logic Lp_hat_dot_N_hat_valid_, Lp_hat_dot_N_hat_valid;
-    logic [31:0] Lp_hat_dot_N_hat_, Lp_hat_dot_N_hat;
+    // 2. inv_sqrt(Lp_vec_dot_Lp_vec)
+    logic Lp_inv_valid_, Lp_inv_valid;
+    logic [31:0] Lp_inv_, Lp_inv;
 
-    fp32_dot3 i_fp32_dot3_Lp_hat_N_hat (
+    fast_inv_sqrt i_fast_inv_sqrt_Lp_dot_Lp (
         .clk      (clk),
         .rst      (rst),
-        .in_valid (Lp_hat_valid),
-        .ax       (Lpx_hat),
-        .ay       (Lpy_hat),
-        .az       (Lpz_hat),
-        .bx       (Nx_hat_delay),
-        .by       (Ny_hat_delay),
-        .bz       (Nz_hat_delay),
-        .out_valid(Lp_hat_dot_N_hat_valid_),
-        .y        (Lp_hat_dot_N_hat_)
+        .in_valid (Lp_vec_dot_Lp_vec_valid),
+        .x_fp32   (Lp_vec_dot_Lp_vec),
+        .out_valid(Lp_inv_valid_),
+        .y_fp32   (Lp_inv_)
+    );
+
+    always_ff @(posedge clk) begin
+        if(rst) begin
+            Lp_inv_valid <= 1'b0;
+            Lp_inv       <= 32'd0;
+        end else begin
+            Lp_inv_valid <= Lp_inv_valid_;
+            Lp_inv       <= Lp_inv_;
+        end
+    end
+
+    // 2. Lp_vec dot product with N_hat
+    logic Lp_vec_dot_N_hat_valid_, Lp_vec_dot_N_hat_valid;
+    logic [31:0] Lp_vec_dot_N_hat_, Lp_vec_dot_N_hat;
+
+    fp32_dot3 i_Lp_vec_dot_N_hat (
+        .clk      (clk),
+        .rst      (rst),
+        .in_valid (N_hat_valid && Lp_vec_delay_valid),
+        .ax       (Lpx_vec_delay),
+        .ay       (Lpy_vec_delay),
+        .az       (Lpz_vec_delay),
+        .bx       (Nx_hat),
+        .by       (Ny_hat),
+        .bz       (Nz_hat),
+        .out_valid(Lp_vec_dot_N_hat_valid_),
+        .y        (Lp_vec_dot_N_hat_)
+    );
+
+    always_ff @(posedge clk) begin
+        if(rst) begin
+            Lp_vec_dot_N_hat_valid <= 1'b0;
+            Lp_vec_dot_N_hat       <= 32'd0;
+        end else begin
+            Lp_vec_dot_N_hat_valid <= Lp_vec_dot_N_hat_valid_;
+            Lp_vec_dot_N_hat       <= Lp_vec_dot_N_hat_;
+        end
+    end
+
+    // 3. times two results of step 2 together
+    logic Lp_hat_dot_N_hat_valid;
+    logic [31:0] Lp_hat_dot_N_hat_, Lp_hat_dot_N_hat;
+
+    fp32_mul i_fp32_mul_Lp_hat_dot_N_hat (
+        .a       (Lp_inv),
+        .b       (Lp_vec_dot_N_hat),
+        .overflow(),
+        .y       (Lp_hat_dot_N_hat_)
     );
 
     always_ff @(posedge clk) begin
@@ -462,7 +506,7 @@ module vertex_processing (
             Lp_hat_dot_N_hat_valid <= 1'b0;
             Lp_hat_dot_N_hat       <= 32'd0;
         end else begin
-            Lp_hat_dot_N_hat_valid <= Lp_hat_dot_N_hat_valid_;
+            Lp_hat_dot_N_hat_valid <= (Lp_vec_dot_N_hat_valid && Lp_inv_valid);
             Lp_hat_dot_N_hat       <= Lp_hat_dot_N_hat_;
         end
     end
@@ -511,7 +555,7 @@ module vertex_processing (
             Lp_comp_valid <= 1'b0;
             Lp_comp       <= 32'd0;
         end else begin
-            Lp_comp_valid <= Lp_hat_dot_N_hat_valid;
+            Lp_comp_valid <= (Lp_hat_dot_N_hat_valid && Lp_intensity_valid);
             Lp_comp       <= Lp_comp_;
         end
     end
@@ -589,8 +633,8 @@ module vertex_processing (
     logic [31:0] Ld_intensity;
 
     delay_reg # (
-        .SIZE(32),
-        .NUM(1),
+        .SIZE (32),
+        .NUM  (1),
         .DELAY(LD_INTENSITY_D)
     ) i_delay_reg_Ld_intensity (
         .clk      (clk),
@@ -628,7 +672,7 @@ module vertex_processing (
             Ld_comp_valid <= 1'b0;
             Ld_comp       <= 32'd0;
         end else begin
-            Ld_comp_valid <= Ld_hat_dot_N_hat_valid;
+            Ld_comp_valid <= (Ld_hat_dot_N_hat_valid && Ld_intensity_valid);
             Ld_comp       <= Ld_comp_;
         end
     end
@@ -639,19 +683,19 @@ module vertex_processing (
      */
     
     // Delay La_intensity_i for LA_INTENSITY_D cycles
-    logic La_intensity_valid;
+    logic La_comp_valid;
     logic [31:0] La_comp;
 
     delay_reg # (
-        .SIZE(32),
-        .NUM(1),
+        .SIZE (32),
+        .NUM  (1),
         .DELAY(LA_INTENSITY_D)
     ) i_delay_reg_La_intensity (
         .clk      (clk),
         .rst      (rst),
         .in_valid (La_valid_i),
         .data_in  (La_intensity_i),
-        .out_valid(La_intensity_valid),
+        .out_valid(La_comp_valid),
         .data_out (La_comp)
     );
 
@@ -667,20 +711,15 @@ module vertex_processing (
         .y       (Ld_comp_add_La_comp_)
     );
 
-    // Delay the sum of Direction light component and Ambient light component,
-    // wati for Point light component 
-    delay_reg # (
-        .SIZE (32),
-        .NUM  (1),
-        .DELAY(FP32_DOT3_D + FP32_MUL_D)
-    ) i_delay_reg_Ld_comp_add_La_comp (
-        .clk      (clk),
-        .rst      (rst),
-        .in_valid (Ld_comp_valid),
-        .data_in  (Ld_comp_add_La_comp_),
-        .out_valid(Ld_comp_add_La_comp_valid),
-        .data_out (Ld_comp_add_La_comp)
-    );
+    always_ff @(posedge clk) begin
+        if(rst) begin
+            Ld_comp_add_La_comp_valid <= 1'b0;
+            Ld_comp_add_La_comp       <= 32'd0;
+        end else begin
+            Ld_comp_add_La_comp_valid <= (Ld_comp_valid && La_comp_valid);
+            Ld_comp_add_La_comp       <= Ld_comp_add_La_comp_;
+        end
+    end
 
     // Add sum of Direction light component and Ambient light component
     // to Point light component
@@ -700,7 +739,7 @@ module vertex_processing (
             brightness_valid    <= 1'b0;
             brightness <= 32'd0;
         end else begin
-            brightness_valid <= Ld_comp_add_La_comp_valid;
+            brightness_valid <= (Ld_comp_add_La_comp_valid && Lp_comp_valid);
             brightness       <= brightness_;
         end
     end

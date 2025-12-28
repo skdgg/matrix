@@ -49,10 +49,26 @@ def dot3(a: np.ndarray, b: np.ndarray) -> np.float32:
 
 
 def inv_sqrt_soft(x: np.float32) -> np.float32:
-    # "Correct software sqrt" reference
-    if float(x) <= 0.0:
-        return f32(0.0)
-    return f32(1.0) / f32(np.sqrt(x))
+    # Fast Inverse Square Root (Quake III Algorithm)
+    # Matches hardware implementation in fast_inv_sqrt.sv
+    
+    # 1. Interpret float bits as integer
+    x_int = f32_to_u32(x)
+    
+    # 2. Magic number subtraction and shift
+    # i = 0x5f3759df - (i >> 1)
+    y_int = 0x5f3759df - (x_int >> 1)
+    
+    # 3. Interpret back as float (y0)
+    y0 = struct.unpack("<f", struct.pack("<I", y_int))[0]
+    y0 = np.float32(y0)
+    
+    # 4. One iteration of Newton's method
+    # y = y * (1.5 - (x * 0.5 * y * y))
+    x_half = f32(x * 0.5)
+    y = f32(y0 * (f32(1.5) - (x_half * y0 * y0)))
+    
+    return y
 
 
 def vec_norm3(v: np.ndarray) -> np.ndarray:
