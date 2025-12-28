@@ -31,10 +31,6 @@ TA_run:
 rtl_all: mv_mul vertex
 
 rtl0: | $(bld_dir)
-	@if [ $$(echo $(CYCLE) '>' 20.0 | bc -l) -eq 1 ]; then \
-		echo "Cycle time shouldn't exceed 20"; \
-		exit 1; \
-	fi; \
 	echo Running mat_vec_mul simulation...
 	cd $(bld_dir); \
 	vcs -R -sverilog $(root_dir)/$(sim_dir)/mv_mul_tb.sv -debug_access+all -full64 \
@@ -44,10 +40,6 @@ rtl0: | $(bld_dir)
 	+notimingcheck
 
 rtl1: | $(bld_dir)
-	@if [ $$(echo $(CYCLE) '>' 20.0 | bc -l) -eq 1 ]; then \
-		echo "Cycle time shouldn't exceed 20"; \
-		exit 1; \
-	fi; \
 	echo Running vertex_processing simulation...
 	cd $(bld_dir); \
 	vcs -R -sverilog $(root_dir)/$(sim_dir)/vertex_tb.sv -debug_access+all -full64 \
@@ -124,33 +116,22 @@ rtl6: | $(bld_dir)
 syn_all: syn0 syn1 syn2 syn3 syn4 syn5 syn6
 # 16nm
 syn0: | $(bld_dir)
-	@if [ $$(echo $(CYCLE) '>' 20.0 | bc -l) -eq 1 ]; then \
-		echo "Cycle time shouldn't exceed 20"; \
-		exit 1; \
-	fi; \
-#	make -C $(sim_dir)/prog0/; \
 	cd $(bld_dir); \
-vcs -R -sverilog +neg_tchk -negdelay \
-  -v /usr/cad/CBDK/Executable_Package/Collaterals/IP/stdcell/N16ADFP_StdCell/VERILOG/N16ADFP_StdCell.v \
-  $(root_dir)/$(sim_dir)/top_tb.sv \
-  -debug_access+all -full64 -diag=sdf:verbose \
-  +incdir+$(root_dir)/$(syn_dir)+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
-  +define+SYN$(FSDB_DEF) \
-  +rdcycle=1
+	vcs -R -sverilog +neg_tchk -negdelay \
+	-v /usr/cad/CBDK/Executable_Package/Collaterals/IP/stdcell/N16ADFP_StdCell/VERILOG/N16ADFP_StdCell.v \
+	$(root_dir)/$(sim_dir)/mv_mul_tb.sv \
+	-debug_access+all -full64 -diag=sdf:verbose \
+	+incdir+$(root_dir)/$(syn_dir)+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
+	+define+SYN$(FSDB_DEF) \
+	+rdcycle=1
 
 
 syn1: | $(bld_dir)
-	@if [ $$(echo $(CYCLE) '>' 20.0 | bc -l) -eq 1 ]; then \
-		echo "Cycle time shouldn't exceed 20"; \
-		exit 1; \
-	fi; \
-	make -C $(sim_dir)/prog1/; \
 	cd $(bld_dir); \
-	vcs -R -sverilog +neg_tchk -negdelay -v /usr/cad/CBDK/Executable_Package/Collaterals/IP/stdcell/N16ADFP_StdCell/VERILOG/N16ADFP_StdCell.v $(root_dir)/$(sim_dir)/top_tb.sv -debug_access+all -full64 -diag=sdf:verbose \
+	vcs -R -sverilog +neg_tchk -negdelay -v /usr/cad/CBDK/Executable_Package/Collaterals/IP/stdcell/N16ADFP_StdCell/VERILOG/N16ADFP_StdCell.v $(root_dir)/$(sim_dir)/vertex_tb.sv -debug_access+all -full64 -diag=sdf:verbose \
 	+incdir+$(root_dir)/$(syn_dir)+$(root_dir)/$(src_dir)+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
-	+define+SYN+prog1$(FSDB_DEF) \
+	+define+SYN$(FSDB_DEF) \
 	+no_notifier \
-	+prog_path=$(root_dir)/$(sim_dir)/prog1
 
 syn2: | $(bld_dir)
 	@if [ $$(echo $(CYCLE) '>' 20.0 | bc -l) -eq 1 ]; then \
