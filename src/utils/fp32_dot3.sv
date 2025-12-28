@@ -1,8 +1,9 @@
 `ifndef FP32_DOT3_SV
 `define FP32_DOT3_SV
 
-`include "fp32_mul.sv"
-`include "fp32_addsub.sv"
+`include "../src/utils/fp32_mul.sv"
+`include "../src/utils/fp32_addsub.sv"
+
 module fp32_dot3 (
     input  logic        clk,
     input  logic        rst,

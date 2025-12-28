@@ -1,5 +1,5 @@
-`include "../src/fp32_addsub.sv"
-`include "../src/fp32_mul.sv"
+`include "../src/utils/fp32_addsub.sv"
+`include "../src/utils/fp32_mul.sv"
 
 module mv_mul_4x4_fp32 (
     input  logic        clk,

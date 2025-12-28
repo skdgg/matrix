@@ -3,6 +3,7 @@
 // - result: normalized then TRUNCATE fraction (no GRS, no RNE)
 `ifndef FP32_MUL_SV
 `define FP32_MUL_SV
+
 module fp32_mul (
     input  logic [31:0] a,
     input  logic [31:0] b,

@@ -1,9 +1,9 @@
 `ifndef FP32_NORMALIZE3_SV
 `define FP32_NORMALIZE3_SV
 
-`include "fp32_mul.sv"
-`include "fp32_dot3.sv"
-`include "fast_inv_sqrt.sv"
+`include "../src/utils/fp32_mul.sv"
+`include "../src/utils/fp32_dot3.sv"
+`include "../src/utils/fast_inv_sqrt.sv"
 
 module fp32_normalize3 #(
     // dot: 2cycle valid + 1cycle latch(comb y) => 3

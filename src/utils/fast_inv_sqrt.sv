@@ -1,8 +1,8 @@
 `ifndef FAST_INV_SQRT_SV
 `define FAST_INV_SQRT_SV
 
-`include "fp32_mul.sv"
-`include "fp32_addsub.sv"
+`include "../src/utils/fp32_mul.sv"
+`include "../src/utils/fp32_addsub.sv"
 
 module fast_inv_sqrt #(
     parameter logic [31:0] MAGIC = 32'h5f3759df

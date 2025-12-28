@@ -7,7 +7,7 @@
 `timescale 1ns/10ps
 `include "/opt/CIC/Cell_Libraries/ADFP/Executable_Package/Collaterals/IP/stdcell/N16ADFP_StdCell/VERILOG/N16ADFP_StdCell.v"
 `else
-`include "../src/mv_mul_4x4_fp32.sv"
+`include "../src/utils/mv_mul_4x4_fp32.sv"
 `endif
 
 module mv_mul_tb;
@@ -35,8 +35,8 @@ end
   localparam int OUT_WORDS  = 4;   // 4out
   localparam int LATENCY    = 4;
 
-  localparam string IN_HEX  = "../sim/out_hex/mv_in.hex";
-  localparam string OUT_HEX = "../sim/out_hex/mv_out.hex";
+  localparam string IN_HEX  = "../sim/mat_vec_mul/out_hex/mv_in.hex";
+  localparam string OUT_HEX = "../sim/mat_vec_mul/out_hex/mv_out.hex";
 
   // -------------------------
   // Clock / Reset

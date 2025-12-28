@@ -1,10 +1,10 @@
-`include "fp32_addsub.sv"
-`include "fp32_mul.sv"
-`include "fp32_dot3.sv"
-`include "fp32_normalize3.sv"
-`include "mv_mul_4x4_fp32.sv"
-`include "fast_inv_sqrt.sv"
-`include "delay_reg.sv"
+`include "utils/fp32_addsub.sv"
+`include "utils/fp32_mul.sv"
+`include "utils/fp32_dot3.sv"
+`include "utils/fp32_normalize3.sv"
+`include "utils/mv_mul_4x4_fp32.sv"
+`include "utils/fast_inv_sqrt.sv"
+`include "utils/delay_reg.sv"
 
 module vertex_processing (
     input clk,

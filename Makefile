@@ -33,7 +33,7 @@ rtl_all: mv_mul vertex
 rtl0: | $(bld_dir)
 	echo Running mat_vec_mul simulation...
 	cd $(bld_dir); \
-	vcs -R -sverilog $(root_dir)/$(sim_dir)/mv_mul_tb.sv -debug_access+all -full64 \
+	vcs -R -sverilog $(root_dir)/$(sim_dir)/mat_vec_mul/mv_mul_tb.sv -debug_access+all -full64 \
 	+incdir+$(root_dir)/$(src_dir)+$(root_dir)/$(src_dir)/AXI+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
 	+define$(FSDB_DEF) \
 	+rdcycle=1 \
@@ -42,74 +42,9 @@ rtl0: | $(bld_dir)
 rtl1: | $(bld_dir)
 	echo Running vertex_processing simulation...
 	cd $(bld_dir); \
-	vcs -R -sverilog $(root_dir)/$(sim_dir)/vertex_tb.sv -debug_access+all -full64 \
+	vcs -R -sverilog $(root_dir)/$(sim_dir)/vertex/vertex_tb.sv -debug_access+all -full64 \
 	+incdir+$(root_dir)/$(src_dir)+$(root_dir)/$(src_dir)/AXI+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
 	+define$(FSDB_DEF)$(TOL_DEF) \
-	+notimingcheck
-
-rtl2: | $(bld_dir)
-	@if [ $$(echo $(CYCLE) '>' 20.0 | bc -l) -eq 1 ]; then \
-		echo "Cycle time shouldn't exceed 20"; \
-		exit 1; \
-	fi; \
-	make -C $(sim_dir)/prog2/; \
-	cd $(bld_dir); \
-	vcs -R -sverilog $(root_dir)/$(sim_dir)/top_tb.sv -debug_access+all -full64  \
-	+incdir+$(root_dir)/$(src_dir)+$(root_dir)/$(src_dir)/AXI+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
-	+define+prog2$(FSDB_DEF) \
-	+prog_path=$(root_dir)/$(sim_dir)/prog2 \
-	+notimingcheck
-
-rtl3: | $(bld_dir)
-	@if [ $$(echo $(CYCLE) '>' 20.0 | bc -l) -eq 1 ]; then \
-		echo "Cycle time shouldn't exceed 20"; \
-		exit 1; \
-	fi; \
-	make -C $(sim_dir)/prog3/; \
-	cd $(bld_dir); \
-	vcs -R -sverilog $(root_dir)/$(sim_dir)/top_tb.sv -debug_access+all -full64  \
-	+incdir+$(root_dir)/$(src_dir)+$(root_dir)/$(src_dir)/AXI+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
-	+define+prog3$(FSDB_DEF) \
-	+prog_path=$(root_dir)/$(sim_dir)/prog3 \
-	+notimingcheck
-
-rtl4: | $(bld_dir)
-	@if [ $$(echo $(CYCLE) '>' 20.0 | bc -l) -eq 1 ]; then \
-		echo "Cycle time shouldn't exceed 20"; \
-		exit 1; \
-	fi; \
-	make -C $(sim_dir)/prog4/; \
-	cd $(bld_dir); \
-	vcs -R -sverilog $(root_dir)/$(sim_dir)/top_tb.sv -debug_access+all -full64  \
-	+incdir+$(root_dir)/$(src_dir)+$(root_dir)/$(src_dir)/AXI+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
-	+define+prog4$(FSDB_DEF) \
-	+prog_path=$(root_dir)/$(sim_dir)/prog4 \
-	+notimingcheck
-
-rtl5: | $(bld_dir)
-	@if [ $$(echo $(CYCLE) '>' 20.0 | bc -l) -eq 1 ]; then \
-		echo "Cycle time shouldn't exceed 20"; \
-		exit 1; \
-	fi; \
-	make -C $(sim_dir)/prog5/; \
-	cd $(bld_dir); \
-	vcs -R -sverilog $(root_dir)/$(sim_dir)/top_tb.sv -debug_access+all -full64 \
-	+incdir+$(root_dir)/$(src_dir)+$(root_dir)/$(src_dir)/AXI+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
-	+define+prog5$(FSDB_DEF) \
-	+prog_path=$(root_dir)/$(sim_dir)/prog5 \
-	+notimingcheck
-
-rtl6: | $(bld_dir)
-	@if [ $$(echo $(CYCLE) '>' 20.0 | bc -l) -eq 1 ]; then \
-		echo "Cycle time shouldn't exceed 20"; \
-		exit 1; \
-	fi; \
-	make -C $(sim_dir)/prog6/; \
-	cd $(bld_dir); \
-	vcs -R -sverilog $(root_dir)/$(sim_dir)/top_tb.sv -debug_access+all -full64 \
-	+incdir+$(root_dir)/$(src_dir)+$(root_dir)/$(src_dir)/AXI+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
-	+define+prog3$(FSDB_DEF) \
-	+prog_path=$(root_dir)/$(sim_dir)/prog6 \
 	+notimingcheck
 
 # Post-Synthesis simulation
@@ -119,7 +54,7 @@ syn0: | $(bld_dir)
 	cd $(bld_dir); \
 	vcs -R -sverilog +neg_tchk -negdelay \
 	-v /usr/cad/CBDK/Executable_Package/Collaterals/IP/stdcell/N16ADFP_StdCell/VERILOG/N16ADFP_StdCell.v \
-	$(root_dir)/$(sim_dir)/mv_mul_tb.sv \
+	$(root_dir)/$(sim_dir)/mat_vec_mul/mv_mul_tb.sv \
 	-debug_access+all -full64 -diag=sdf:verbose \
 	+incdir+$(root_dir)/$(syn_dir)+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
 	+define+SYN$(FSDB_DEF) \
@@ -128,73 +63,11 @@ syn0: | $(bld_dir)
 
 syn1: | $(bld_dir)
 	cd $(bld_dir); \
-	vcs -R -sverilog +neg_tchk -negdelay -v /usr/cad/CBDK/Executable_Package/Collaterals/IP/stdcell/N16ADFP_StdCell/VERILOG/N16ADFP_StdCell.v $(root_dir)/$(sim_dir)/vertex_tb.sv -debug_access+all -full64 -diag=sdf:verbose \
+	vcs -R -sverilog +neg_tchk -negdelay -v /usr/cad/CBDK/Executable_Package/Collaterals/IP/stdcell/N16ADFP_StdCell/VERILOG/N16ADFP_StdCell.v \
+	$(root_dir)/$(sim_dir)/vertex/vertex_tb.sv -debug_access+all -full64 -diag=sdf:verbose \
 	+incdir+$(root_dir)/$(syn_dir)+$(root_dir)/$(src_dir)+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
 	+define+SYN$(FSDB_DEF) \
 	+no_notifier \
-
-syn2: | $(bld_dir)
-	@if [ $$(echo $(CYCLE) '>' 20.0 | bc -l) -eq 1 ]; then \
-		echo "Cycle time shouldn't exceed 20"; \
-		exit 1; \
-	fi; \
-	make -C $(sim_dir)/prog2/; \
-	cd $(bld_dir); \
-	vcs -R -sverilog +neg_tchk -negdelay -v /usr/cad/CBDK/Executable_Package/Collaterals/IP/stdcell/N16ADFP_StdCell/VERILOG/N16ADFP_StdCell.v $(root_dir)/$(sim_dir)/top_tb.sv -debug_access+all -full64 -diag=sdf:verbose \
-	+incdir+$(root_dir)/$(syn_dir)+$(root_dir)/$(src_dir)+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
-	+define+SYN+prog2$(FSDB_DEF) \
-	+no_notifier \
-	+prog_path=$(root_dir)/$(sim_dir)/prog2
-
-syn3: | $(bld_dir)
-	@if [ $$(echo $(CYCLE) '>' 20.0 | bc -l) -eq 1 ]; then \
-		echo "Cycle time shouldn't exceed 20"; \
-		exit 1; \
-	fi; \
-	make -C $(sim_dir)/prog3/; \
-	cd $(bld_dir); \
-	vcs -R -sverilog +neg_tchk -negdelay -v /usr/cad/CBDK/Executable_Package/Collaterals/IP/stdcell/N16ADFP_StdCell/VERILOG/N16ADFP_StdCell.v $(root_dir)/$(sim_dir)/top_tb.sv -debug_access+all -full64 -diag=sdf:verbose \
-	+incdir+$(root_dir)/$(syn_dir)+$(root_dir)/$(src_dir)+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
-	+define+SYN+prog3$(FSDB_DEF) \
-	+no_notifier \
-	+prog_path=$(root_dir)/$(sim_dir)/prog3
-
-syn4: | $(bld_dir)
-	@if [ $$(echo $(CYCLE) '>' 20.0 | bc -l) -eq 1 ]; then \
-		echo "Cycle time shouldn't exceed 20"; \
-		exit 1; \
-	fi; \
-	make -C $(sim_dir)/prog4/; \
-	cd $(bld_dir); \
-	vcs -R -sverilog +neg_tchk -negdelay -v /usr/cad/CBDK/Executable_Package/Collaterals/IP/stdcell/N16ADFP_StdCell/VERILOG/N16ADFP_StdCell.v $(root_dir)/$(sim_dir)/top_tb.sv -debug_access+all -full64 -diag=sdf:verbose \
-	+incdir+$(root_dir)/$(syn_dir)+$(root_dir)/$(src_dir)+$(root_dir)/$(src_dir)/AXI+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
-	+define+SYN+prog4$(FSDB_DEF) \
-	+prog_path=$(root_dir)/$(sim_dir)/prog4
-
-syn5: | $(bld_dir)
-	@if [ $$(echo $(CYCLE) '>' 20.0 | bc -l) -eq 1 ]; then \
-		echo "Cycle time shouldn't exceed 20"; \
-		exit 1; \
-	fi; \
-	make -C $(sim_dir)/prog5/; \
-	cd $(bld_dir); \
-	vcs -R -sverilog +neg_tchk -negdelay -v /usr/cad/CBDK/Executable_Package/Collaterals/IP/stdcell/N16ADFP_StdCell/VERILOG/N16ADFP_StdCell.v $(root_dir)/$(sim_dir)/top_tb.sv -debug_access+all -full64 -diag=sdf:verbose \
-	+incdir+$(root_dir)/$(syn_dir)+$(root_dir)/$(src_dir)+$(root_dir)/$(src_dir)/AXI+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
-	+define+SYN+prog5$(FSDB_DEF) \
-	+prog_path=$(root_dir)/$(sim_dir)/prog5
-
-syn6: | $(bld_dir)
-	@if [ $$(echo $(CYCLE) '>' 20.0 | bc -l) -eq 1 ]; then \
-		echo "Cycle time shouldn't exceed 20"; \
-		exit 1; \
-	fi; \
-	make -C $(sim_dir)/prog6/; \
-	cd $(bld_dir); \
-	vcs -R -sverilog +neg_tchk -negdelay -v /usr/cad/CBDK/Executable_Package/Collaterals/IP/stdcell/N16ADFP_StdCell/VERILOG/N16ADFP_StdCell.v $(root_dir)/$(sim_dir)/top_tb.sv -debug_access+all -full64 -diag=sdf:verbose \
-	+incdir+$(root_dir)/$(syn_dir)+$(root_dir)/$(src_dir)+$(root_dir)/$(src_dir)/AXI+$(root_dir)/$(inc_dir)+$(root_dir)/$(sim_dir) \
-	+define+SYN+prog6$(FSDB_DEF) \
-	+prog_path=$(root_dir)/$(sim_dir)/prog6
-
 
 # Utilities
 nWave: | $(bld_dir)

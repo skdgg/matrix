@@ -124,8 +124,8 @@ module vertex_tb;
 
     initial begin
         // Load files
-        $readmemh("../sim/test_vertex/input.hex", input_mem);
-        $readmemh("../sim/test_vertex/golden_output.hex", golden_mem);
+        $readmemh("../sim/vertex/test_vertex/input.hex", input_mem);
+        $readmemh("../sim/vertex/test_vertex/golden_output.hex", golden_mem);
 
         num_vertices = input_mem[0];
         $display("Number of vertices: %d", num_vertices);
@@ -262,7 +262,7 @@ module vertex_tb;
                     $display("------------------------------------------------------------");
                     $display("Vertex Processing simulation done!");
                     if (err_cnt == 0) begin
-                        $display("  ALL PASS! Processed %d vertices.", out_cnt);
+                        $display("  ALL PASS!");
                     end else begin
                         $display("  FAILED with %d errors.", err_cnt);  
                     end
